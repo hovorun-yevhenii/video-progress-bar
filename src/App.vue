@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <VideoPlayer :src="src2"/>
+    <button @click="src = short">Short video</button>
+    <button @click="src = long">Long video</button>
+
+    <VideoPlayer :src="src"/>
   </div>
 </template>
 
@@ -14,8 +17,9 @@ export default Vue.extend({
     VideoPlayer
   },
   data: () => ({
-    src1: require('./assets/one.mp4'),
-    src2: require('./assets/two.mp4'),
+    src: require('./assets/one.mp4'),
+    short: require('./assets/one.mp4'),
+    long: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
   }),
 });
 </script>
