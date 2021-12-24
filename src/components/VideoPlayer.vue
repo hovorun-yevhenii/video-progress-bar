@@ -5,60 +5,31 @@
       ref="video"
       controls
       muted
-      @play="handleStart"
-      @pause="handleStop"
     />
-    <input
-        v-model="progress"
-        ref="range"
-        type="range"
-        class="player__progress"
-        step="0.001"
-        max="500"
-        @input="setCurrentTime"
-    />
+    <VideoPlayerProgress class="player__progress" @change="setCurrentTime"/>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import VideoPlayerProgress from './VideoPlayerProgress.vue';
 
 export default Vue.extend({
   name: 'VideoPlayer',
+
+  components: {
+    VideoPlayerProgress
+  },
+
   props: {
     src: String,
   },
 
-  data: () => ({
-    progress: 0,
-    interval: undefined as number | undefined,
-  }),
-
   methods: {
-    setCurrentTime() {
-      const range = this.$refs.range as HTMLInputElement
+    setCurrentTime(time: number) {
       const video = this.$refs.video as HTMLMediaElement
-      const { duration } = video
 
-      video.currentTime = +range.value * duration / range.clientWidth
-    },
-    updateProgress() {
-      const range = this.$refs.range as HTMLInputElement
-      const video = this.$refs.video as HTMLMediaElement
-      const { currentTime, duration } = video
-
-      this.progress = range.clientWidth * currentTime / duration
-    },
-    handleStart(event: { target: HTMLMediaElement }) {
-      const { duration } = event.target
-      const range = this.$refs.range as HTMLInputElement
-      const frameTime = 1000 / (range.clientWidth / duration)
-
-      this.updateProgress()
-      this.interval = setInterval(this.updateProgress, frameTime)
-    },
-    handleStop() {
-      clearInterval(this.interval)
+      video.currentTime = time
     },
   }
 });
