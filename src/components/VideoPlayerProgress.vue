@@ -8,7 +8,12 @@
     :value="progress"
     :max="max"
     @input="change"
+    @click="updateProgress"
   />
+
+  <div class="progress__bar">
+    <div class="progress__elapsed" :style="`width: ${progress}px`"></div>
+  </div>
 </div>
 </template>
 
@@ -40,6 +45,7 @@ export default Vue.extend({
     if (this.video) {
       this.video.addEventListener('play', this.start)
       this.video.addEventListener('pause', this.stop)
+      this.max = this.range.clientWidth
 
       this.$watch(() => this.video.src, (src) => {
         // todo find out why it doesn't work and reset the progress
@@ -91,9 +97,42 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+$height: 8px;
+$bar-color: #B2B0B1;
+$elapsed-color: #FF031C;
+
 .progress {
-  &__range {
+  position: relative;
+
+  &__range,
+  &__bar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    height: $height;
     width: 100%;
+  }
+
+  &__range {
+    cursor: pointer;
+    opacity: 0;
+  }
+
+  &__bar {
+    pointer-events: none;
+    background-color: $bar-color;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  &__elapsed {
+    height: 100%;
+    background-color: $elapsed-color;
+    border-radius: 4px 0 0 4px;
   }
 }
 </style>
