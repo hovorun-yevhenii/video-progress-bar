@@ -1,18 +1,13 @@
 <template>
   <div class="player">
-    <video
-      :src="src"
-      ref="video"
-      controls
-      muted
-    />
-    <VideoPlayerProgress class="player__progress" @change="setCurrentTime"/>
+    <video :src="src" ref="video" controls muted />
+    <VideoPlayerProgress class="player__progress" @change="setCurrentTime" />
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import VideoPlayerProgress from './VideoPlayerProgress.vue';
+import Vue from 'vue'
+import VideoPlayerProgress from './VideoPlayerProgress.vue'
 
 export default Vue.extend({
   name: 'VideoPlayer',
