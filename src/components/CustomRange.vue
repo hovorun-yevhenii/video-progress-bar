@@ -51,7 +51,12 @@ export default Vue.extend({
       }
     },
     elapsed(): number {
-      return Math.round(+this.progress * 100 / +this.max)
+      const percentage = +this.progress * 100 / +this.max
+      /** Some magic to compensate native slider-thumb width */
+      const edge = percentage < 0.1 || percentage > 99.9
+      const offset = edge ? 0 : (percentage - 50) / 25
+
+      return percentage - offset
     }
   },
 });
